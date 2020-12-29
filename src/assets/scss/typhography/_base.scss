@@ -1,0 +1,21 @@
+html,
+body {
+  margin: 0;
+  width: 100%;
+  font-family: Roboto, sans-serif;
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  // height: 100vh;
+  // max-height: 100vh;
+  overflow-x: hidden;
+}
+
+.required {
+  color: $color-required;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
