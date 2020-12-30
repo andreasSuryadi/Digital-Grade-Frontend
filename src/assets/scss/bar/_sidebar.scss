@@ -9,13 +9,13 @@
   }
 
   &-item {
-    
-    &:hover {
-      color: $color-sidebar;
-    }
-    
     & > a {
       color: $color-white !important;
+      
+      &:hover {
+        color: $color-sidebar !important;
+      }
+
       &.is-active {
         color: $color-navbar !important;
         background-color: $color-white !important;
