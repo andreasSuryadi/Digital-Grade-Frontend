@@ -9,16 +9,23 @@
   }
 
   &-item {
-    color: $color-white;
-
+    
     &:hover {
       color: $color-sidebar;
     }
-
-    & > a.is-active {
-      color: $color-navbar !important;
-      background-color: $color-white !important;
+    
+    & > a {
+      color: $color-white !important;
+      &.is-active {
+        color: $color-navbar !important;
+        background-color: $color-white !important;
+      }
     }
   }
 
+  &-logout {
+    bottom: 30px;
+    position: absolute;
+    width: 86%;
+  }
 }
