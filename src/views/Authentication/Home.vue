@@ -11,7 +11,9 @@
             <Sidebar />
           </div>
           <div class="column content-view is-mobile">
-            <router-view />
+            <div class="contaier">
+              <router-view />
+            </div>
           </div>
         </div>
       </div>
@@ -30,3 +32,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" >
+.container {
+  padding-top: 20px;
+  height: 90vh;
+  width: 100%;
+  // overflow: hidden;
+}
+</style>
