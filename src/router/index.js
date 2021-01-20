@@ -8,6 +8,7 @@ import Home from '@/views/Authentication/Home'
 
 // For Dashboard
 import Dashboard from '@/views/Dashboard/Dashboard'
+import Teacher from '@/views/Teacher/IndexTeacher'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,15 @@ const routes = [
         meta: { requiresAuth: true }
       },
       /** End For Dashboard */
+
+      /** For Teacher */
+      {
+        path: "/teacher",
+        name: "Teacher",
+        component: Teacher,
+        meta: { requiresAuth: true }
+      }
+      /** End For Teacher */
     ]
   },
 ]
