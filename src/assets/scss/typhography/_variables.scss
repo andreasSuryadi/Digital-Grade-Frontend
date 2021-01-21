@@ -12,6 +12,7 @@ $xxxtra-large-res: 2560px;
 $color-white: #ffffff;
 $color-black: #000000;
 $color-primary: #036C72;
+$color-primary-invert: findColorInvert($color-primary);
 $color-primary-light: #036C72dd;
 $color-secondary: #08C2CC;
 $color-secondary-light: #08C2CC77;
@@ -41,6 +42,11 @@ $colors: (
   'black': (
     $color-black,
     $color-white,
+  ),
+  'primary': (
+    $color-primary,
+    $color-white,
+    $color-primary-invert,
   ),
   'success': (
     $color-success,
