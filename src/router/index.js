@@ -8,6 +8,7 @@ import Home from '@/views/Authentication/Home'
 
 // For Dashboard
 import Dashboard from '@/views/Dashboard/Dashboard'
+import Profile from '@/views/Profile/Profile'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,12 @@ const routes = [
     component: Home,
     children: [
       /** For Dashboard */
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+      },
+
       {
         path: "",
         name: "Dashboard",
