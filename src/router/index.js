@@ -8,11 +8,9 @@ import Home from '@/views/Authentication/Home'
 
 // For Dashboard
 import Dashboard from '@/views/Dashboard/Dashboard'
-<<<<<<< HEAD
 import Profile from '@/views/Profile/Profile'
-=======
 import Teacher from '@/views/Teacher/IndexTeacher'
->>>>>>> 380290f243794548dc26fe12759b3d2c3dd861ff
+import Student from '@/views/Student/IndexStudent'
 
 Vue.use(VueRouter)
 
@@ -51,8 +49,17 @@ const routes = [
         name: "Teacher",
         component: Teacher,
         meta: { requiresAuth: true }
-      }
+      },
       /** End For Teacher */
+
+      /** For Student */
+      {
+        path: "/student",
+        name: "Student",
+        component: Student,
+        meta: { requiresAuth: true }
+      }
+      /** End For Student */
     ]
   },
 ]
