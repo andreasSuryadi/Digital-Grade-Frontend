@@ -10,7 +10,7 @@
         :current-page.sync="currentPage"
         paginated
         backend-pagination
-        :total="students && students.total ? students.total : 0"
+        :total="students && students.total ? student.total : 0"
         :per-page="perPage"
         @page-change="onPageChange"
         aria-next-label="Next page"
@@ -88,7 +88,7 @@
           v-slot="props"
           width="10%"
         >
-          {{ props.row.dateofbirth }}
+          {{ props.row.placeOfBirth }}, {{ props.row.dateOfBirth }}
         </b-table-column>
 
         <!-- For action -->
