@@ -13,6 +13,9 @@ import Dashboard from '@/views/Dashboard/Dashboard'
 import Teacher from '@/views/Teacher/IndexTeacher'
 import FormTeacher from '@/views/Teacher/FormTeacher'
 
+// For profile
+import Profile from '@/views/Profile/Profile'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -30,6 +33,12 @@ const routes = [
     component: Home,
     children: [
       /** For Dashboard */
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+      },
+
       {
         path: "",
         name: "Dashboard",
