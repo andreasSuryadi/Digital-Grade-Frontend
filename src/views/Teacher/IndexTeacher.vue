@@ -4,13 +4,27 @@
     <h1 class="content-title">Teachers</h1>
 
     <template v-if="!isLoading">
+      <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+          <router-link to="/teacher/create">
+            <b-button
+              type="is-primary"
+              class="btn-create"
+            >
+              Create New
+            </b-button>
+          </router-link>
+        </div>
+      </div>
+
       <b-table
         v-if="!isLoading"
         :data="teachers && teachers.data ? teachers.data : []"
         :current-page.sync="currentPage"
         paginated
         backend-pagination
-        :total="teachers && teachers.total ? teacher.total : 0"
+        :total="teachers.meta && teachers.meta.total ? teachers.meta.total : 0"
         :per-page="perPage"
         @page-change="onPageChange"
         aria-next-label="Next page"
@@ -23,6 +37,19 @@
         @sort="onSort"
         detail-key="id"
       >
+        <!-- For NIG -->
+        <b-table-column
+          field="no"
+          label="No"
+          sortable
+          v-slot="props"
+          width="5%"
+        >
+          <span class="table-full-name">
+            {{ props.index + teachers.meta.from }}
+          </span>
+        </b-table-column>
+
         <!-- For NIG -->
         <b-table-column
           field="nig"
@@ -83,21 +110,21 @@
         <!-- For action -->
         <b-table-column
           label="Action"
+          v-slot="props"
           width="10%"
         >
-          <b-button
-            type="is-primary is-small has-text-weight-bold"
-            @click="editPopup(props.row.id)"
-            icon-left="edit"
-          >
-          </b-button>
+          <router-link :to="'/teacher/edit/' + props.row.id">
+            <b-button
+              type="is-primary is-small has-text-weight-bold"
+              icon-left="edit"
+            ></b-button>
+          </router-link>
           <b-button
             style="margin-left: 10px"
             type="is-danger is-small has-text-weight-bold"
             @click="deletePopup(props.row.id)"
             icon-left="trash"
-          >
-          </b-button>
+          ></b-button>
         </b-table-column>
       </b-table>
     </template>
@@ -113,6 +140,7 @@ import { showToast } from '@/services/util'
 import Loading from "@/components/Loading";
 
 export default {
+  name: 'teacher',
   components: {
     Loading,
   },
@@ -155,6 +183,7 @@ export default {
   methods: {
     ...mapActions({
       fetchTeachers: 'teacher/fetchTeachers',
+      deleteTeacherData: 'teacher/deleteTeacher',
     }),
 
     // For load teachers
@@ -181,6 +210,42 @@ export default {
       } catch (err) {
         showToast(err, 'is-danger', 'is-bottom')
       }
+      this.isLoading = false
+    },
+
+    // For delete popup
+    deletePopup(id) {
+      this.$buefy.dialog.confirm({
+        title: "Delete Teacher",
+        message: `Are you sure want to delete this teacher?`,
+        cancelText: "No, cancel it!",
+        confirmText: "Yes, delete it!",
+        type: "is-primary",
+        onConfirm: () => this.deleteTeacher(id)
+      });
+    },
+
+    // For delete teacher
+    async deleteTeacher(id) {
+      this.isLoading = true;
+
+      try {
+        await this.deleteTeacherData(id)
+
+        showToast('Delete Teacher Success', 'is-success', 'is-bottom')
+      } catch (err) {
+        showToast(err, 'is-danger', 'is-bottom')
+      }
+
+      this.loadTeachers(
+        this.perPage,
+        this.page,
+        this.sortField,
+        this.sortOrder,
+        this.search,
+        this.status
+      )
+
       this.isLoading = false
     },
 
