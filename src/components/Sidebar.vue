@@ -41,6 +41,21 @@
               </b-menu-item>
               <!-- End For Teacher -->
 
+              <!-- For Student -->
+              <b-menu-item
+                class="sidebar-item"
+                tag="router-link"
+                to="/student"
+                target="_self"
+                :active="this.$route.path.includes('/student')"
+              >
+                <template slot="label">
+                  <b-icon icon="users"></b-icon>
+                  <span class="sidebar-item__text"> Student </span>
+                </template>
+              </b-menu-item>
+              <!-- End For Student -->
+
               <b-menu-item
                 class="sidebar-item sidebar-logout"
                 @click="logoutPopup"
