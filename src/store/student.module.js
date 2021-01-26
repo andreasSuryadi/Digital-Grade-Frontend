@@ -14,7 +14,7 @@ const student = {
     }
   },
   actions: {
-    // For get students
+    // For get student
     fetchStudents(context, content) {
       return new Promise((resolve, reject) => {
         ApiService.init()
@@ -37,6 +37,76 @@ const student = {
           },
           error => {
             context.commit('setLoading', false)
+            reject(error)
+          }
+        )
+      })
+    },
+
+    // For fetch student by id
+    fetchStudent(context, id) {
+      return new Promise((resolve, reject) => {
+        ApiService.init()
+        ApiService.setHeaderMultipartFormData()
+        ApiService.get(`/api/student/${id}/show`, {}).then(
+          response => {
+            resolve(response)
+          },
+          error => {
+            reject(error)
+          }
+        )
+      })
+    },
+
+    // For create student
+    createStudent(context, form) {
+      return new Promise((resolve, reject) => {
+        context.commit('setLoading', true)
+        ApiService.init()
+        ApiService.setHeaderMultipartFormData()
+        ApiService.post(`/api/student`, form, true).then(
+          response => {
+            context.commit('setLoading', false)
+            resolve(response)
+          },
+          error => {
+            reject(error)
+          }
+        )
+      })
+    },
+
+    // For update student
+    updateStudent(context, form) {
+      return new Promise((resolve, reject) => {
+        context.commit('setLoading', true)
+        ApiService.init()
+        ApiService.setHeaderMultipartFormData()
+        ApiService.put(`/api/student/${form.id}/update`, form, true).then(
+          response => {
+            context.commit('setLoading', false)
+            resolve(response)
+          },
+          error => {
+            reject(error)
+          }
+        )
+      })
+    },
+
+    // For delete student
+    deleteStudent(context, id) {
+      return new Promise((resolve, reject) => {
+        context.commit('setLoading', true)
+        ApiService.init()
+        ApiService.setHeaderMultipartFormData()
+        ApiService.delete(`/api/student/${id}/delete`, {}, true).then(
+          response => {
+            context.commit('setLoading', false)
+            resolve(response)
+          },
+          error => {
             reject(error)
           }
         )

@@ -4,13 +4,27 @@
     <h1 class="content-title">Students</h1>
 
     <template v-if="!isLoading">
+      <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+          <router-link to="/student/create">
+            <b-button
+              type="is-primary"
+              class="btn-create"
+            >
+              Create New
+            </b-button>
+          </router-link>
+        </div>
+      </div>
+
       <b-table
         v-if="!isLoading"
         :data="students && students.data ? students.data : []"
         :current-page.sync="currentPage"
         paginated
         backend-pagination
-        :total="students && students.total ? student.total : 0"
+        :total="students.meta && students.meta.total ? students.meta.total : 0"
         :per-page="perPage"
         @page-change="onPageChange"
         aria-next-label="Next page"
@@ -23,6 +37,19 @@
         @sort="onSort"
         detail-key="id"
       >
+        <!-- For No -->
+        <b-table-column
+          field="no"
+          label="No"
+          sortable
+          v-slot="props"
+          width="1%"
+        >
+          <span class="table-full-name">
+            {{ props.index + students.meta.from }}
+          </span>
+        </b-table-column>
+
         <!-- For NIS -->
         <b-table-column
           field="nis"
@@ -48,15 +75,15 @@
         </b-table-column>
 
         <!-- For class -->
-        <b-table-column
+        <!--<b-table-column
           field="class"
           label="Class"
           sortable
           v-slot="props"
-          width="10%"
+          width="5%"
         >
           {{ props.row.class }}
-        </b-table-column>
+        </b-table-column> -->
 
         <!-- For email -->
         <b-table-column
@@ -94,21 +121,21 @@
         <!-- For action -->
         <b-table-column
           label="Action"
+          v-slot="props"
           width="10%"
         >
-          <b-button
-            type="is-primary is-small has-text-weight-bold"
-            @click="editPopup(props.row.id)"
-            icon-left="edit"
-          >
-          </b-button>
+          <router-link :to="'/student/edit/' + props.row.id">
+            <b-button
+              type="is-primary is-small has-text-weight-bold"
+              icon-left="edit"
+            ></b-button>
+          </router-link>
           <b-button
             style="margin-left: 10px"
             type="is-danger is-small has-text-weight-bold"
             @click="deletePopup(props.row.id)"
             icon-left="trash"
-          >
-          </b-button>
+          ></b-button>
         </b-table-column>
       </b-table>
     </template>
@@ -124,6 +151,7 @@ import { showToast } from '@/services/util'
 import Loading from "@/components/Loading";
 
 export default {
+  name: 'student',
   components: {
     Loading,
   },
@@ -166,6 +194,7 @@ export default {
   methods: {
     ...mapActions({
       fetchStudents: 'student/fetchStudents',
+      deleteStudentData: 'student/deleteStudent',
     }),
 
     // For load students
@@ -192,6 +221,42 @@ export default {
       } catch (err) {
         showToast(err, 'is-danger', 'is-bottom')
       }
+      this.isLoading = false
+    },
+
+    // For delete popup
+    deletePopup(id) {
+      this.$buefy.dialog.confirm({
+        title: "Delete Student",
+        message: `Are you sure want to delete this student?`,
+        cancelText: "No, cancel it!",
+        confirmText: "Yes, delete it!",
+        type: "is-primary",
+        onConfirm: () => this.deleteStudent(id)
+      });
+    },
+
+    // For delete student
+    async deleteStudent(id) {
+      this.isLoading = true;
+
+      try {
+        await this.deleteStudentData(id)
+
+        showToast('Delete Student Success', 'is-success', 'is-bottom')
+      } catch (err) {
+        showToast(err, 'is-danger', 'is-bottom')
+      }
+
+      this.loadStudents(
+        this.perPage,
+        this.page,
+        this.sortField,
+        this.sortOrder,
+        this.search,
+        this.status
+      )
+
       this.isLoading = false
     },
 

@@ -11,14 +11,55 @@
         <div class="p-1">
           <b-menu class="is-custom-mobile">
             <b-menu-list class="sidebar-list">
-              <b-menu-item class="sidebar-item">
+              <!-- For Profile -->
+              <b-menu-item
+                class="sidebar-item"
+                tag="router-link"
+                to="/profile"
+                target="_self"
+                :active="this.$route.path === '/profile'"
+              >
                 <template slot="label">
                   <b-icon icon="user"></b-icon>
                   <span class="sidebar-item__text"> Profile </span>
                 </template>
               </b-menu-item>
+              <!-- End For Profile -->
 
-              <b-menu-item class="sidebar-item sidebar-logout" @click="logoutPopup">
+              <!-- For Teacher -->
+              <b-menu-item
+                class="sidebar-item"
+                tag="router-link"
+                to="/teacher"
+                target="_self"
+                :active="this.$route.path.includes('/teacher')"
+              >
+                <template slot="label">
+                  <b-icon icon="users"></b-icon>
+                  <span class="sidebar-item__text"> Teacher </span>
+                </template>
+              </b-menu-item>
+              <!-- End For Teacher -->
+
+              <!-- For Student -->
+              <b-menu-item
+                class="sidebar-item"
+                tag="router-link"
+                to="/student"
+                target="_self"
+                :active="this.$route.path.includes('/student')"
+              >
+                <template slot="label">
+                  <b-icon icon="users"></b-icon>
+                  <span class="sidebar-item__text"> Student </span>
+                </template>
+              </b-menu-item>
+              <!-- End For Student -->
+
+              <b-menu-item
+                class="sidebar-item sidebar-logout"
+                @click="logoutPopup"
+              >
                 <template slot="label">
                   <b-icon icon="power-off"></b-icon>
                   <span class="sidebar-item__text"> Logout </span>
@@ -42,21 +83,21 @@ export default {
     };
   },
   methods: {
-    logoutPopup () {
+    logoutPopup() {
       this.$buefy.dialog.confirm({
         title: "Logout",
         message: `Are you sure want to logout?`,
         cancelText: "No!",
         confirmText: "Yes!",
         type: "is-danger",
-        onConfirm: () => this.doLogout()
+        onConfirm: () => this.doLogout(),
       });
     },
     doLogout() {
-      this.$store.dispatch('auth/logout')
-      this.$router.push('/login')
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
-  }
+  },
 };
 </script>
 

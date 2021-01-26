@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { ValidationProvider, extend } from 'vee-validate'
 import { ValidationObserver } from 'vee-validate'
-import { email } from 'vee-validate/dist/rules'
+import { required, email } from 'vee-validate/dist/rules'
 library.add(fas, faCalendarDay)
 
 import { fas, faCalendarDay } from '@fortawesome/free-solid-svg-icons'
@@ -25,14 +25,15 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 extend('email', email)
 
 extend('required', {
-  validate(value) {
-    return {
-      required: true,
-      valid: ['', null, undefined].indexOf(value) === -1,
-    }
-  },
+  ...required,
   message: 'This field is required',
   computesRequired: true,
+})
+
+extend('password', {
+  validate: (value, { other }) => value === other,
+  message: 'The password confirmation does not match.',
+  params: [{ name: 'other', isTarget: true }],
 })
 
 Vue.config.productionTip = false
