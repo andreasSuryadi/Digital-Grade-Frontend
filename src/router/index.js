@@ -13,9 +13,13 @@ import Dashboard from '@/views/Dashboard/Dashboard'
 import Teacher from '@/views/Teacher/IndexTeacher'
 import FormTeacher from '@/views/Teacher/FormTeacher'
 
-//Fot Student
+// For Student
 import Student from '@/views/Student/IndexStudent'
 import FormStudent from '@/views/Student/FormStudent'
+
+// For Course
+import Course from '@/views/Course/IndexCourse'
+import FormCourse from '@/views/Course/FormCourse'
 
 // For profile
 import Profile from '@/views/Profile/Profile'
@@ -90,8 +94,29 @@ const routes = [
         name: 'Student.Edit',
         component: FormStudent,
         meta: { requiresAuth: true },
-      }
+      },
       /** End For Student */
+
+      /** For Course */
+      {
+        path: '/course',
+        name: 'Course.Index',
+        component: Course,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/course/create',
+        name: 'Course.Create',
+        component: FormCourse,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/course/edit/:courseId',
+        name: 'Course.Edit',
+        component: FormCourse,
+        meta: { requiresAuth: true },
+      }
+      /** End For Course */
     ]
   },
 ]
