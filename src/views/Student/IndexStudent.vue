@@ -18,6 +18,27 @@
         </div>
       </div>
 
+      <div class="level table-search">
+        <div class="level-left">
+          <b-field>
+            <b-input
+              v-model="search"
+              placeholder="Search..."
+              type="search"
+              icon="search"
+            ></b-input>
+          </b-field>
+        </div>
+        <div class="level-right">
+          <b-select v-model="perPage" @input="onPerPageChange">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </b-select>
+        </div>
+      </div>
+
       <b-table
         v-if="!isLoading"
         :data="students && students.data ? students.data : []"
@@ -149,6 +170,7 @@
 import { mapGetters, mapActions } from "vuex";
 import { showToast } from '@/services/util'
 import Loading from "@/components/Loading";
+import debounce from 'lodash/debounce'
 
 export default {
   name: 'student',
@@ -196,6 +218,29 @@ export default {
       fetchStudents: 'student/fetchStudents',
       deleteStudentData: 'student/deleteStudent',
     }),
+
+    // For search student
+    searchStudent: debounce(function(value) {
+      if (value) {
+        this.search = value
+        this.loadStudents(
+          this.perPage,
+          this.page,
+          this.sortField,
+          this.sortOrder,
+          this.search
+        )
+      } else {
+        this.search = null
+        this.loadStudents(
+          this.perPage,
+          this.page,
+          this.sortField,
+          this.sortOrder,
+          this.search
+        )
+      }
+    }, 500),
 
     // For load students
     async loadStudents(
@@ -300,6 +345,11 @@ export default {
         this.status
       )
     },
-  }
+  },
+  watch: {
+    search: function(val) {
+      this.searchStudent(val)
+    },
+  },
 };
 </script>

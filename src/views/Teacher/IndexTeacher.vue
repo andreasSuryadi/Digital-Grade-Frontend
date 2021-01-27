@@ -8,13 +8,31 @@
         <div class="level-left"></div>
         <div class="level-right">
           <router-link to="/teacher/create">
-            <b-button
-              type="is-primary"
-              class="btn-create"
-            >
+            <b-button type="is-primary" class="btn-create">
               Create New
             </b-button>
           </router-link>
+        </div>
+      </div>
+
+      <div class="level table-search">
+        <div class="level-left">
+          <b-field>
+            <b-input
+              v-model="search"
+              placeholder="Search..."
+              type="search"
+              icon="search"
+            ></b-input>
+          </b-field>
+        </div>
+        <div class="level-right">
+          <b-select v-model="perPage" @input="onPerPageChange">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </b-select>
         </div>
       </div>
 
@@ -108,11 +126,7 @@
         </b-table-column>
 
         <!-- For action -->
-        <b-table-column
-          label="Action"
-          v-slot="props"
-          width="10%"
-        >
+        <b-table-column label="Action" v-slot="props" width="10%">
           <router-link :to="'/teacher/edit/' + props.row.id">
             <b-button
               type="is-primary is-small has-text-weight-bold"
@@ -136,11 +150,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { showToast } from '@/services/util'
+import { showToast } from "@/services/util";
 import Loading from "@/components/Loading";
+import debounce from 'lodash/debounce'
 
 export default {
-  name: 'teacher',
+  name: "teacher",
   components: {
     Loading,
   },
@@ -178,23 +193,39 @@ export default {
       this.sortOrder,
       this.search,
       this.status
-    )
+    );
   },
   methods: {
     ...mapActions({
-      fetchTeachers: 'teacher/fetchTeachers',
-      deleteTeacherData: 'teacher/deleteTeacher',
+      fetchTeachers: "teacher/fetchTeachers",
+      deleteTeacherData: "teacher/deleteTeacher",
     }),
 
+    // For search teacher
+    searchTeacher: debounce(function(value) {
+      if (value) {
+        this.search = value
+        this.loadTeachers(
+          this.perPage,
+          this.page,
+          this.sortField,
+          this.sortOrder,
+          this.search
+        )
+      } else {
+        this.search = null
+        this.loadTeachers(
+          this.perPage,
+          this.page,
+          this.sortField,
+          this.sortOrder,
+          this.search
+        )
+      }
+    }, 500),
+
     // For load teachers
-    async loadTeachers(
-      perPage,
-      page,
-      sortField,
-      sortOrder,
-      search,
-      status
-    ) {
+    async loadTeachers(perPage, page, sortField, sortOrder, search, status) {
       let data = {
         perPage: perPage,
         page: page,
@@ -202,15 +233,15 @@ export default {
         sortOrder: sortOrder,
         search: search,
         status: status,
-      }
+      };
 
-      this.isLoading = true
+      this.isLoading = true;
       try {
-        await this.fetchTeachers(data)
+        await this.fetchTeachers(data);
       } catch (err) {
-        showToast(err, 'is-danger', 'is-bottom')
+        showToast(err, "is-danger", "is-bottom");
       }
-      this.isLoading = false
+      this.isLoading = false;
     },
 
     // For delete popup
@@ -221,7 +252,7 @@ export default {
         cancelText: "No, cancel it!",
         confirmText: "Yes, delete it!",
         type: "is-primary",
-        onConfirm: () => this.deleteTeacher(id)
+        onConfirm: () => this.deleteTeacher(id),
       });
     },
 
@@ -230,11 +261,11 @@ export default {
       this.isLoading = true;
 
       try {
-        await this.deleteTeacherData(id)
+        await this.deleteTeacherData(id);
 
-        showToast('Delete Teacher Success', 'is-success', 'is-bottom')
+        showToast("Delete Teacher Success", "is-success", "is-bottom");
       } catch (err) {
-        showToast(err, 'is-danger', 'is-bottom')
+        showToast(err, "is-danger", "is-bottom");
       }
 
       this.loadTeachers(
@@ -244,15 +275,15 @@ export default {
         this.sortOrder,
         this.search,
         this.status
-      )
+      );
 
-      this.isLoading = false
+      this.isLoading = false;
     },
 
     // For Page Change
     onPageChange(page) {
-      this.currentPage = page
-      this.page = page
+      this.currentPage = page;
+      this.page = page;
       this.loadTeachers(
         this.perPage,
         this.page,
@@ -260,13 +291,13 @@ export default {
         this.sortOrder,
         this.search,
         this.status
-      )
+      );
     },
 
     // For Sorting Data
     onSort(field, order) {
-      this.sortField = field
-      this.sortOrder = order
+      this.sortField = field;
+      this.sortOrder = order;
       this.loadTeachers(
         this.perPage,
         this.page,
@@ -274,12 +305,12 @@ export default {
         this.sortOrder,
         this.search,
         this.status
-      )
+      );
     },
 
     // For per page change
     onPerPageChange(value) {
-      this.perPage = value
+      this.perPage = value;
       this.loadTeachers(
         this.perPage,
         this.page,
@@ -287,8 +318,13 @@ export default {
         this.sortOrder,
         this.search,
         this.status
-      )
+      );
     },
-  }
+  },
+  watch: {
+    search: function(val) {
+      this.searchTeacher(val)
+    },
+  },
 };
 </script>
