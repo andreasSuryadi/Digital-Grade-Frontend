@@ -21,6 +21,10 @@ import FormStudent from '@/views/Student/FormStudent'
 import Course from '@/views/Course/IndexCourse'
 import FormCourse from '@/views/Course/FormCourse'
 
+// For Class
+import Class from '@/views/Class/IndexClass'
+import FormClass from '@/views/Class/FormClass'
+
 // For profile
 import Profile from '@/views/Profile/Profile'
 
@@ -115,8 +119,32 @@ const routes = [
         name: 'Course.Edit',
         component: FormCourse,
         meta: { requiresAuth: true },
-      }
+      },
       /** End For Course */
+
+      /** For Class */
+      {
+        path: '/class',
+        name: 'Class.Index',
+        component: Class,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/class/create',
+        name: 'Class.Create',
+        component: FormClass,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/class/edit/:classId',
+        name: 'Class.Edit',
+        component: FormClass,
+        meta: { requiresAuth: true },
+      },
+      /** End For Class */
+      
+
+      
     ]
   },
 ]
