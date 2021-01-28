@@ -5,6 +5,7 @@ import teacher from './teacher.module'
 import student from './student.module'
 import course from './course.module'
 import classes from './class.module'
+import user from './user.module'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     student,
     course,
     classes,
+    user,
   },
 })

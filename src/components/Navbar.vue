@@ -21,9 +21,13 @@
         <div class="level">
           <div class="level-left">
             <p class="navbar-detail">
-              <span class="navbar-detail__name">Andreas Suryadi</span>
+              <span class="navbar-detail__name">{{ user.firstName }} {{ user.lastName }}</span>
               <br />
-              <span class="navbar-detail__class">Kelas 12</span>
+              <span class="navbar-detail__class">
+                <template v-if="user.role == 'student'">Student</template>
+                <template v-else-if="user.role == 'teacher'">Teacher</template>
+                <template v-else-if="user.role == 'superadmin'">Super Admin</template>
+              </span>
             </p>
           </div>
           <div class="level-right">
@@ -47,5 +51,13 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters({
+      user: "user/getUserInfo",
+    }),
+  }
+};
 </script>

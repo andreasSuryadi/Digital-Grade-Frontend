@@ -24,12 +24,39 @@
 <script>
 import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  name: 'Home',
   components: {
     Navbar,
     Sidebar,
-  }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/getUserInfo',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      loadUserInfoFromToken: 'user/loadUserFromToken',
+    }),
+
+    async loadUser() {
+      try {
+        await this.loadUserInfoFromToken()
+      } catch (err) {
+        //*unauthorized
+        if (err.response.status === 401) {
+          this.logOut()
+          await this.$router.push('/login')
+        }
+      }
+    },
+  },
+  async created() {
+    await this.loadUser()
+  },
 }
 </script>
 
