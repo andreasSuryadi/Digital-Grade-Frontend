@@ -1,7 +1,9 @@
 <template>
   <div class="content">
-    <b-icon icon="users" custom-size="7x" class="content-icon"></b-icon>
-    <h1 class="content-title">Students</h1>
+    <b-field grouped position="is-left">
+      <b-icon icon="users" custom-size="3x" class="content-icon"></b-icon>
+      <h1 class="content-title">Students</h1>
+    </b-field>
 
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSaveClicked)">
@@ -81,23 +83,28 @@
           <!-- End for last name -->
 
           <!-- For class -->
-          <!--<div class="column is-3 key">
+          <div class="column is-3 key">
             Class <span class="required">*</span>
           </div>
           <div class="column is-9">
             <ValidationProvider name="class" rules="required" v-slot="{ errors }">
-              <b-input
-                type="text"
-                placeholder="Class"
+              <b-taginput
+                :data="classList"
+                :loading="isFetchingClass"
+                maxtags="1"
+                autocomplete
+                field="name"
+                placeholder="Type and select class..."
                 v-model="data.class"
                 style="width: 90%"
                 expanded
-              ></b-input>
+                @typing="filterClassByName"
+              ></b-taginput>
 
               <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
             </ValidationProvider>
-          </div>-->
-          <!-- End for phone number -->
+          </div>
+          <!-- End for class -->
 
           <!-- For phone number -->
           <div class="column is-3 key">
@@ -144,7 +151,6 @@
           <div class="column is-9">
             <ValidationProvider name="dateOfBirth" rules="required" v-slot="{ errors }">
               <b-datepicker
-                type="text"
                 placeholder="Date Of Birth"
                 v-model="data.dateOfBirth"
                 style="width: 90%"
@@ -163,7 +169,6 @@
           <div class="column is-9">
             <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
               <b-select
-                type="text"
                 placeholder="Gender"
                 v-model="data.gender"
                 style="width: 90%"
@@ -302,6 +307,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { formatDate, showToast } from '@/services/util'
+// import debounce from 'lodash/debounce';
 
 export default {
   name: "form-student",
@@ -313,7 +319,7 @@ export default {
         nisn: null,
         firstName: null,
         lastName: null,
-        //class: null,
+        class: [],
         email: null,
         password: null,
         confirmPassword: null,
@@ -325,6 +331,8 @@ export default {
         gender: null,
         profilePictureUrl: null,
       },
+      classList: [],
+      isFetchingClass: false,
     };
   },
   async created() {
@@ -332,6 +340,8 @@ export default {
       const response = await this.fetchStudent(this.$route.params.studentId)
 
       response.data.dateOfBirth = new Date(response.data.dateOfBirth)
+
+      response.data.class = [response.data.class]
 
       this.data = response.data
     }
@@ -341,6 +351,7 @@ export default {
       fetchStudent: 'student/fetchStudent',
       createStudent: 'student/createStudent',
       updateStudent: 'student/updateStudent',
+      searchClassByName: 'classes/searchClassByName',
     }),
 
     async onSaveClicked() {
@@ -350,7 +361,7 @@ export default {
         nisn: this.data.nisn,
         first_name: this.data.firstName,
         last_name: this.data.lastName,
-        //class: this.data.class,
+        class: this.data.class,
         email: this.data.email,
         password: this.data.password,
         confirm_password: this.data.confirmPassword,
@@ -377,6 +388,18 @@ export default {
         showToast(err.response.data.message, 'is-danger', 'is-bottom')
       }
     },
+
+    async filterClassByName (event) {
+      let data = {
+        search: event
+      }
+
+      this.classList = []
+
+      const response = await this.searchClassByName(data)
+
+      this.classList = response.data
+    }
   },
 };
 </script>

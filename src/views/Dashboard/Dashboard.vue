@@ -1,7 +1,9 @@
 <template>
   <div class="content">
-    <b-icon icon="home" custom-size="7x" class="content-icon"></b-icon>
-    <h1 class="content-title">Home</h1>
+    <b-field grouped position="is-left">
+      <b-icon icon="home" custom-size="3x" class="content-icon"></b-icon>
+      <h1 class="content-title">Home</h1>
+    </b-field>
 
     <div class="content-card">
       <div class="content-card__title">Selamat Datang</div>

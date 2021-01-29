@@ -27,7 +27,6 @@ extend('email', email)
 extend('required', {
   ...required,
   message: 'This field is required',
-  computesRequired: true,
 })
 
 extend('password', {

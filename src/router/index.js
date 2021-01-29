@@ -25,6 +25,10 @@ import FormCourse from '@/views/Course/FormCourse'
 import Class from '@/views/Class/IndexClass'
 import FormClass from '@/views/Class/FormClass'
 
+// For Schedule
+import Schedule from '@/views/Schedule/IndexSchedule'
+import FormSchedule from '@/views/Schedule/FormSchedule'
+
 // For profile
 import Profile from '@/views/Profile/Profile'
 
@@ -142,9 +146,27 @@ const routes = [
         meta: { requiresAuth: true },
       },
       /** End For Class */
-      
 
-      
+      /** For Schedule */
+      {
+        path: '/schedule',
+        name: 'Schedule.Index',
+        component: Schedule,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/schedule/create',
+        name: 'Schedule.Create',
+        component: FormSchedule,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/schedule/edit/:scheduleId',
+        name: 'Schedule.Edit',
+        component: FormSchedule,
+        meta: { requiresAuth: true },
+      },
+      /** End For Schedule */
     ]
   },
 ]

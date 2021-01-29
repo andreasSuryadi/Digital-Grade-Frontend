@@ -1,7 +1,9 @@
 <template>
   <div class="content">
-    <b-icon icon="users" custom-size="7x" class="content-icon"></b-icon>
-    <h1 class="content-title">Teachers</h1>
+    <b-field grouped position="is-left">
+      <b-icon icon="users" custom-size="3x" class="content-icon"></b-icon>
+      <h1 class="content-title">Teachers</h1>
+    </b-field>
 
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSaveClicked)">

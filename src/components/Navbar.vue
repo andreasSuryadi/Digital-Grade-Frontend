@@ -21,12 +21,14 @@
         <div class="level">
           <div class="level-left">
             <p class="navbar-detail">
-              <span class="navbar-detail__name">{{ user.firstName }} {{ user.lastName }}</span>
+              <span class="navbar-detail__name">{{ user != null ? user.firstName : 'Admin' }} {{ user != null ? user.lastName : '' }}</span>
               <br />
               <span class="navbar-detail__class">
-                <template v-if="user.role == 'student'">Student</template>
-                <template v-else-if="user.role == 'teacher'">Teacher</template>
-                <template v-else-if="user.role == 'superadmin'">Super Admin</template>
+                <template v-if="user != null">
+                  <template v-if="user.role == 'student'">Student</template>
+                  <template v-else-if="user.role == 'teacher'">Teacher</template>
+                  <template v-else-if="user.role == 'superadmin'">Super Admin</template>
+                </template>
               </span>
             </p>
           </div>
@@ -35,12 +37,24 @@
               class="navbar-profile"
             >
               <div class="navbar-profile__image">
-                <b-image
-                  :src="require('@/assets/images/photo-profile-empty.png')"
-                  alt="Profile Picture"
-                  ratio="1by1"
-                  :responsive="true"
-                ></b-image>
+                <template v-if="user != null">
+                  <template v-if="user.profilePictureUrl == null">
+                    <b-image
+                      :src="require('@/assets/images/photo-profile-empty.png')"
+                      alt="Profile"
+                      ratio="1by1"
+                      :responsive="true"
+                    ></b-image>
+                  </template>
+                  <template v-else>
+                    <b-image
+                      :src="getUrlPhoto(user.profilePictureUrl)"
+                      alt="Profile"
+                      ratio="1by1"
+                      :responsive="true"
+                    ></b-image>
+                  </template>
+                </template>
               </div>
             </div>
           </div>
@@ -58,6 +72,11 @@ export default {
     ...mapGetters({
       user: "user/getUserInfo",
     }),
-  }
+  },
+  methods: {
+    getUrlPhoto(photo) {
+      return process.env.VUE_APP_API_URL + photo
+    }
+  },
 };
 </script>

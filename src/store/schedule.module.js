@@ -1,26 +1,26 @@
 import ApiService from '@/services/common/api.service'
 
-const course = {
+const schedule = {
   namespaced: true,
   state: () => ({
     errors: null,
-    courses: null,
+    schedules: null,
     isLoading: false,
   }),
   getters: {
-    // For get courses
-    getCourses(state) {
-      return state.courses
+    // For get schedules
+    getSchedules(state) {
+      return state.schedules
     }
   },
   actions: {
-    // For get courses
-    fetchCourses(context, content) {
+    // For get schedules
+    fetchSchedules(context, content) {
       return new Promise((resolve, reject) => {
         ApiService.init()
         ApiService.setHeaderMultipartFormData()
         context.commit('setLoading', true)
-        ApiService.get(`/api/course`, {
+        ApiService.get(`/api/schedule`, {
           perPage: content.perPage,
           page: content.page,
           sortField: content.sortField,
@@ -30,7 +30,7 @@ const course = {
         }).then(
           response => {
             if (response.status === 200) {
-              context.commit('setCourses', response.data)
+              context.commit('setSchedules', response.data)
               context.commit('setLoading', false)
               resolve(response)
             }
@@ -43,12 +43,12 @@ const course = {
       })
     },
 
-    // For fetch course by id
-    fetchCourse(context, id) {
+    // For fetch schedule by id
+    fetchSchedule(context, id) {
       return new Promise((resolve, reject) => {
         ApiService.init()
         ApiService.setHeaderMultipartFormData()
-        ApiService.get(`/api/course/${id}/show`, {}).then(
+        ApiService.get(`/api/schedule/${id}/show`, {}).then(
           response => {
             resolve(response)
           },
@@ -59,13 +59,13 @@ const course = {
       })
     },
 
-    // For create course
-    createCourse(context, form) {
+    // For create schedule
+    createSchedule(context, form) {
       return new Promise((resolve, reject) => {
         context.commit('setLoading', true)
         ApiService.init()
         ApiService.setHeaderMultipartFormData()
-        ApiService.post(`/api/course`, form, true).then(
+        ApiService.post(`/api/schedule`, form, true).then(
           response => {
             context.commit('setLoading', false)
             resolve(response)
@@ -77,13 +77,13 @@ const course = {
       })
     },
 
-    // For update course
-    updateCourse(context, form) {
+    // For update schedule
+    updateSchedule(context, form) {
       return new Promise((resolve, reject) => {
         context.commit('setLoading', true)
         ApiService.init()
         ApiService.setHeaderMultipartFormData()
-        ApiService.put(`/api/course/${form.id}/update`, form, true).then(
+        ApiService.put(`/api/schedule/${form.id}/update`, form, true).then(
           response => {
             context.commit('setLoading', false)
             resolve(response)
@@ -95,37 +95,16 @@ const course = {
       })
     },
 
-    // For delete course
-    deleteCourse(context, id) {
+    // For delete schedule
+    deleteSchedule(context, id) {
       return new Promise((resolve, reject) => {
         context.commit('setLoading', true)
         ApiService.init()
         ApiService.setHeaderMultipartFormData()
-        ApiService.delete(`/api/course/${id}/delete`, {}, true).then(
+        ApiService.delete(`/api/schedule/${id}/delete`, {}, true).then(
           response => {
             context.commit('setLoading', false)
             resolve(response)
-          },
-          error => {
-            reject(error)
-          }
-        )
-      })
-    },
-
-    // For search course by name
-    searchCourseByName(context, content) {
-      return new Promise((resolve, reject) => {
-        ApiService.init()
-        ApiService.setHeaderMultipartFormData()
-        ApiService.get(`/api/course/search-course-by-name`, {
-          search: content.search,
-        }).then(
-          response => {
-            if (response.status === 200) {
-              resolve(response)
-              return response
-            }
           },
           error => {
             reject(error)
@@ -140,11 +119,11 @@ const course = {
       state.isLoading = data
     },
 
-    // For set courses
-    setCourses(state, data) {
-      state.courses = data
+    // For set schedules
+    setSchedules(state, data) {
+      state.schedules = data
     },
   }
 }
 
-export default course
+export default schedule

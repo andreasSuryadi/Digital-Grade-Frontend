@@ -112,6 +112,27 @@ const classes = {
         )
       })
     },
+
+    // For search class by name
+    searchClassByName(context, content) {
+      return new Promise((resolve, reject) => {
+        ApiService.init()
+        ApiService.setHeaderMultipartFormData()
+        ApiService.get(`/api/class/search-class-by-name`, {
+          search: content.search,
+        }).then(
+          response => {
+            if (response.status === 200) {
+              resolve(response)
+              return response
+            }
+          },
+          error => {
+            reject(error)
+          }
+        )
+      })
+    },
   },
   mutations: {
     // For set loading

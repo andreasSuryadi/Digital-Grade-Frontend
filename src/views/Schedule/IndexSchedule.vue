@@ -1,15 +1,15 @@
 <template>
   <div class="content">
     <b-field grouped position="is-left">
-      <b-icon icon="users" custom-size="3x" class="content-icon"></b-icon>
-      <h1 class="content-title">Students</h1>
+      <b-icon icon="calendar-alt" custom-size="3x" class="content-icon"></b-icon>
+      <h1 class="content-title">Schedules</h1>
     </b-field>
 
     <template v-if="!isLoading">
       <div class="level">
         <div class="level-left"></div>
         <div class="level-right">
-          <router-link to="/student/create">
+          <router-link to="/schedule/create">
             <b-button
               type="is-primary"
               class="btn-create"
@@ -43,11 +43,11 @@
 
       <b-table
         v-if="!isLoading"
-        :data="students && students.data ? students.data : []"
+        :data="schedules && schedules.data ? schedules.data : []"
         :current-page.sync="currentPage"
         paginated
         backend-pagination
-        :total="students.meta && students.meta.total ? students.meta.total : 0"
+        :total="schedules.meta && schedules.meta.total ? schedules.meta.total : 0"
         :per-page="perPage"
         @page-change="onPageChange"
         aria-next-label="Next page"
@@ -69,20 +69,7 @@
           width="1%"
         >
           <span class="table-full-name">
-            {{ props.index + students.meta.from }}
-          </span>
-        </b-table-column>
-
-        <!-- For NIS -->
-        <b-table-column
-          field="nis"
-          label="NIS"
-          sortable
-          v-slot="props"
-          width="10%"
-        >
-          <span class="table-full-name">
-            {{ props.row.nis }}
+            {{ props.index + schedules.meta.from }}
           </span>
         </b-table-column>
 
@@ -98,7 +85,7 @@
         </b-table-column>
 
         <!-- For class -->
-        <!--<b-table-column
+        <b-table-column
           field="class"
           label="Class"
           sortable
@@ -106,39 +93,59 @@
           width="5%"
         >
           {{ props.row.class }}
-        </b-table-column> -->
-
-        <!-- For email -->
-        <b-table-column
-          field="email"
-          label="Email"
-          sortable
-          v-slot="props"
-          width="10%"
-        >
-          {{ props.row.email }}
         </b-table-column>
 
-        <!-- For phone number -->
+        <!-- For course -->
         <b-table-column
-          field="phone_number"
-          label="Phone Number"
+          field="course"
+          label="Course"
           sortable
           v-slot="props"
           width="10%"
         >
-          {{ props.row.phoneNumber }}
+          {{ props.row.course }}
+        </b-table-column>
+
+        <!-- For day -->
+        <b-table-column
+          field="day"
+          label="Day"
+          sortable
+          v-slot="props"
+          width="10%"
+        >
+          <template v-if="props.row.day == 'monday'">
+            Monday
+          </template>
+          <template v-else-if="props.row.day == 'tuesday'">
+            Tuesday
+          </template>
+          <template v-else-if="props.row.day == 'wednesday'">
+            Wednesday
+          </template>
+          <template v-else-if="props.row.day == 'thursday'">
+            Thursday
+          </template>
+          <template v-else-if="props.row.day == 'friday'">
+            Friday
+          </template>
+          <template v-else-if="props.row.day == 'saturday'">
+            Saturday
+          </template>
+          <template v-else-if="props.row.day == 'sunday'">
+            Sunday
+          </template>
         </b-table-column>
 
         <!-- For date of birth -->
         <b-table-column
-          field="date_of_birth"
-          label="Date of Birth"
+          field="start_time"
+          label="Schedule"
           sortable
           v-slot="props"
           width="10%"
         >
-          {{ props.row.placeOfBirth }}, {{ props.row.dateOfBirth }}
+          {{ props.row.startTime }} - {{ props.row.endTime }}
         </b-table-column>
 
         <!-- For action -->
@@ -147,7 +154,7 @@
           v-slot="props"
           width="10%"
         >
-          <router-link :to="'/student/edit/' + props.row.id">
+          <router-link :to="'/schedule/edit/' + props.row.id">
             <b-button
               type="is-primary is-small has-text-weight-bold"
               icon-left="edit"
@@ -175,7 +182,7 @@ import Loading from "@/components/Loading";
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'student',
+  name: 'schedule',
   components: {
     Loading,
   },
@@ -202,11 +209,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      students: "student/getStudents",
+      schedules: "schedule/getSchedules",
     }),
   },
   async created() {
-    await this.loadStudents(
+    await this.loadSchedules(
       this.perPage,
       this.page,
       this.sortField,
@@ -217,15 +224,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchStudents: 'student/fetchStudents',
-      deleteStudentData: 'student/deleteStudent',
+      fetchSchedules: 'schedule/fetchSchedules',
+      deleteScheduleData: 'schedule/deleteSchedule',
     }),
 
-    // For search student
-    searchStudent: debounce(function(value) {
+    // For search schedule
+    searchSchedule: debounce(function(value) {
       if (value) {
         this.search = value
-        this.loadStudents(
+        this.loadSchedules(
           this.perPage,
           this.page,
           this.sortField,
@@ -234,7 +241,7 @@ export default {
         )
       } else {
         this.search = null
-        this.loadStudents(
+        this.loadSchedules(
           this.perPage,
           this.page,
           this.sortField,
@@ -244,8 +251,8 @@ export default {
       }
     }, 500),
 
-    // For load students
-    async loadStudents(
+    // For load schedules
+    async loadSchedules(
       perPage,
       page,
       sortField,
@@ -264,7 +271,7 @@ export default {
 
       this.isLoading = true
       try {
-        await this.fetchStudents(data)
+        await this.fetchSchedules(data)
       } catch (err) {
         showToast(err, 'is-danger', 'is-bottom')
       }
@@ -274,28 +281,28 @@ export default {
     // For delete popup
     deletePopup(id) {
       this.$buefy.dialog.confirm({
-        title: "Delete Student",
-        message: `Are you sure want to delete this student?`,
+        title: "Delete Schedule",
+        message: `Are you sure want to delete this schedule?`,
         cancelText: "No, cancel it!",
         confirmText: "Yes, delete it!",
         type: "is-primary",
-        onConfirm: () => this.deleteStudent(id)
+        onConfirm: () => this.deleteSchedule(id)
       });
     },
 
-    // For delete student
-    async deleteStudent(id) {
+    // For delete schedule
+    async deleteSchedule(id) {
       this.isLoading = true;
 
       try {
-        await this.deleteStudentData(id)
+        await this.deleteScheduleData(id)
 
-        showToast('Delete Student Success', 'is-success', 'is-bottom')
+        showToast('Delete Schedule Success', 'is-success', 'is-bottom')
       } catch (err) {
         showToast(err, 'is-danger', 'is-bottom')
       }
 
-      this.loadStudents(
+      this.loadSchedules(
         this.perPage,
         this.page,
         this.sortField,
@@ -311,7 +318,7 @@ export default {
     onPageChange(page) {
       this.currentPage = page
       this.page = page
-      this.loadStudents(
+      this.loadSchedules(
         this.perPage,
         this.page,
         this.sortField,
@@ -325,7 +332,7 @@ export default {
     onSort(field, order) {
       this.sortField = field
       this.sortOrder = order
-      this.loadStudents(
+      this.loadSchedules(
         this.perPage,
         this.page,
         this.sortField,
@@ -338,7 +345,7 @@ export default {
     // For per page change
     onPerPageChange(value) {
       this.perPage = value
-      this.loadStudents(
+      this.loadSchedules(
         this.perPage,
         this.page,
         this.sortField,
@@ -350,7 +357,7 @@ export default {
   },
   watch: {
     search: function(val) {
-      this.searchStudent(val)
+      this.searchSchedule(val)
     },
   },
 };

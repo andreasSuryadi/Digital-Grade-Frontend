@@ -71,7 +71,7 @@
               </b-menu-item>
               <!-- End For Course -->
 
-              <!-- For Kelases -->
+              <!-- For Class -->
               <b-menu-item
                 class="sidebar-item"
                 tag="router-link"
@@ -80,11 +80,26 @@
                 :active="this.$route.path.includes('/class')"
               >
                 <template slot="label">
-                  <b-icon icon="book"></b-icon>
+                  <b-icon icon="graduation-cap"></b-icon>
                   <span class="sidebar-item__text"> Class </span>
                 </template>
               </b-menu-item>
-              <!-- End For Kelas -->
+              <!-- End For Class -->
+
+              <!-- For Schedule -->
+              <b-menu-item
+                class="sidebar-item"
+                tag="router-link"
+                to="/schedule"
+                target="_self"
+                :active="this.$route.path.includes('/schedule')"
+              >
+                <template slot="label">
+                  <b-icon icon="calendar-alt"></b-icon>
+                  <span class="sidebar-item__text"> Schedule </span>
+                </template>
+              </b-menu-item>
+              <!-- End For Schedule -->
 
               <b-menu-item
                 class="sidebar-item sidebar-logout"

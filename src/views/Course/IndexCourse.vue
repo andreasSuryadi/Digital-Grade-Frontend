@@ -1,7 +1,9 @@
 <template>
   <div class="content">
-    <b-icon icon="book" custom-size="7x" class="content-icon"></b-icon>
-    <h1 class="content-title">Courses</h1>
+    <b-field grouped position="is-left">
+      <b-icon icon="book" custom-size="3x" class="content-icon"></b-icon>
+      <h1 class="content-title">Courses</h1>
+    </b-field>
 
     <template v-if="!isLoading">
       <div class="level">
