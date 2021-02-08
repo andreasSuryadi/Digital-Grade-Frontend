@@ -8,325 +8,220 @@
 
     <div class="tile is-ancestor">
       <div class="tile is-3 is-vertical is-parent">
-        <div class="box">
+
           <b-image
             src=""
             placeholder="/static/img/icons/favicon-96x96.png"
             ratio="2by1"
         ></b-image>
-        </div>
+
       </div>
       <div class="tile is-parent">
-        <div class="tile is-child box">
+        <div class="tile is-child box" style="padding-top: 0px; padding-left: 0px">
           <section>
-            <b-tabs type="is-boxed" position="is-centered">
+            <b-tabs type="is-boxed" position="is-left" v-model="activeTab">
               <!-- Tab Akademik -->
               <b-tab-item label="Akademik" icon="book-reader">
-                <div class="columns is-multiline">
-                  <!-- For nis -->
-                  <div class="column is-3 key">
+                <div class="columns is-multiline" style="padding-left: 16px">
+                  <!-- For Program Studi -->
+                  <div class="column is-3 key" style="text-align: left">
                     Program Studi
                   </div>
-                  <div class="column is-9">
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="NIS"
-                        v-model="data.nis"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
+                  <div class="column is-9" style="text-align: left">
+                    TEKNIK INFORMATIKA
                   </div>
-                  <!-- End for nis -->
+                  <!-- End for Program Studi -->
 
-                  <!-- For nisn -->
-                  <div class="column is-3 key">
-                    NISN </div>
-                  <div class="column is-9">
-                    <ValidationProvider rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="NISN"
-                        v-model="data.nisn"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
+                  <!-- For Jenjang -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Jenjang
                   </div>
-                  <!-- End for nis -->
-
-                  <!-- For first name -->
-                  <div class="column is-3 key">
-                    First Name
+                  <div class="column is-9" style="text-align: left">
+                    S1
                   </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="First Name"
-                        v-model="data.firstName"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
+                  <!-- End for Jenjang -->
 
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
+                  <!-- For Kelas/Tahun Akademik -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Kelas/Tahun Masuk
                   </div>
-                  <!-- End for first name -->
-
-                  <!-- For last name -->
-                  <div class="column is-3 key">
-                    Last Name
+                  <div class="column is-9" style="text-align: left">
+                    IF-10/2019
                   </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="lastName" rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="Last Name"
-                        v-model="data.lastName"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
+                  <!-- End for Kelas/Tahun Akademik -->
 
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
+                  <!-- For Semester -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Semester
                   </div>
-                  <!-- End for last name -->
-
-                  <!-- For class -->
-                  <div class="column is-3 key">
-                    Class
+                  <div class="column is-9" style="text-align: left">
+                    III
                   </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="class" rules="required" v-slot="{ errors }">
-                      <b-taginput
-                        :data="classList"
-                        :loading="isFetchingClass"
-                        maxtags="1"
-                        autocomplete
-                        field="name"
-                        placeholder="Type and select class..."
-                        v-model="data.class"
-                        style="width: 90%"
-                        expanded
-                        @typing="filterClassByName"
-                      ></b-taginput>
+                  <!-- End for Semester -->
 
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
+                  <!-- For Dosen Wali -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Dosen Wali
                   </div>
-                  <!-- End for class -->
-
-                  <!-- For phone number -->
-                  <div class="column is-3 key">
-                    Phone Number
+                  <div class="column is-9" style="text-align: left">
+                    Richi Dwi Agustia, S.Kom, M.Kom
                   </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="phoneNumber" rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="Phone Number"
-                        v-model="data.phoneNumber"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for phone number -->
-
-                  <!-- For place of birth -->
-                  <div class="column is-3 key">
-                    Place Of Birth
-                  </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="placeOfBirth" rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="Place Of Birth"
-                        v-model="data.placeOfBirth"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for place of birth -->
-
-                  <!-- For date of birth -->
-                  <div class="column is-3 key">
-                    Date Of Birth
-                  </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="dateOfBirth" rules="required" v-slot="{ errors }">
-                      <b-datepicker
-                        placeholder="Date Of Birth"
-                        v-model="data.dateOfBirth"
-                        style="width: 90%"
-                        expanded
-                      ></b-datepicker>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for date of birth -->
-
-                  <!-- For gender -->
-                  <div class="column is-3 key">
-                    Gender
-                  </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
-                      <b-select
-                        placeholder="Gender"
-                        v-model="data.gender"
-                        style="width: 90%"
-                        expanded
-                      >
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                      </b-select>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for gender -->
-
-                  <!-- For address -->
-                  <div class="column is-3 key">
-                    Address
-                  </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="address" rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="textarea"
-                        placeholder="Address"
-                        v-model="data.address"
-                        style="width: 90%"
-                        expanded
-                        rows="3"
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for address -->
-
-                  <!-- For blood type -->
-                  <div class="column is-3 key">
-                    Blood Type
-                  </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="bloodType" rules="required" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="Blood Type"
-                        v-model="data.bloodType"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for blood type -->
-
-                  <!-- For email -->
-                  <div class="column is-3 key">
-                    Email
-                  </div>
-                  <div class="column is-9">
-                    <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
-                      <b-input
-                        type="text"
-                        placeholder="Email"
-                        v-model="data.email"
-                        style="width: 90%"
-                        expanded
-                      ></b-input>
-
-                      <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                    </ValidationProvider>
-                  </div>
-                  <!-- End for email -->
-
-                  <template v-if="$route.name == 'Student.Create'">
-                    <!-- For password -->
-                    <div class="column is-3 key">
-                      Password 
-                    </div>
-                    <div class="column is-9">
-                      <ValidationProvider
-                        name="password"
-                        rules="required"
-                        v-slot="{ errors }"
-                      >
-                        <b-input
-                          type="password"
-                          placeholder="Password"
-                          v-model="data.password"
-                          style="width: 90%"
-                          expanded
-                        ></b-input>
-
-                        <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                      </ValidationProvider>
-                    </div>
-                    <!-- End for password -->
-
-                    <!-- For password -->
-                    <div class="column is-3 key">
-                      Confirm Password
-                    </div>
-                    <div class="column is-9">
-                      <ValidationProvider
-                        name="confirmPassword"
-                        rules="required|password:password"
-                        v-slot="{ errors }"
-                      >
-                        <b-input
-                          type="password"
-                          placeholder="Confirm Password"
-                          v-model="data.confirmPassword"
-                          style="width: 90%"
-                          expanded
-                        ></b-input>
-
-                        <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-                      </ValidationProvider>
-                    </div>
-                    <!-- End for password -->
-                  </template>
-
-                  <div class="column" style="text-align: right; padding-right: 100px">
-                    <b-button
-                      type="is-primary"
-                      native-type="submit"
-                      icon-left="save"
-                    >
-                      Save
-                    </b-button>
-                  </div>
+                  <!-- End for Dosen Wali -->
                 </div>
               </b-tab-item>
               <!-- End Tab Akademik -->
 
               <!-- Tab Biodata -->
               <b-tab-item label="Biodata" icon="id-card">
+                <div class="columns is-multiline" style="padding-left: 16px">
+                  <!-- For Nama Lengkap -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Nama Lengkap
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.firstName}} {{data.lastName}}
+                  </div>
+                  <!-- End for Nama Lengkap -->
 
+                  <!-- For Tempat Lahir -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Tempat Lahir
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.placeOfBirth}}
+                  </div>
+                  <!-- End for Tempat Lahir -->
+
+                  <!-- For Tanggal Lahir -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Tanggal Lahir
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.dateOfBirth}}
+                  </div>
+                  <!-- End for Tanggal Lahir -->
+
+                  <!-- For Jenis Kelamin -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Jenis Kelamin
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.gender}}
+                  </div>
+                  <!-- End for Jenis Kelamin -->
+
+                  <!-- For Kewarganegaraan -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Kewarganegaraan
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.nationality}}
+                  </div>
+                  <!-- End Kewarganegaraan -->
+
+                  <!-- For NIK/Passport -->
+                  <div class="column is-3 key" style="text-align: left">
+                    NIK/Passport
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.nik}}
+                  </div>
+                  <!-- End for NIK/Passport -->
+
+                  <!-- For Alamat Lengkap -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Alamat Lengkap
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.address}}
+                  </div>
+                  <!-- End for Alamat Lengkap -->
+
+                  <!-- For Desa -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Desa
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.desa}}
+                  </div>
+                  <!-- End for Desa -->
+
+                  <!-- For Kecamatan -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Kecamatan
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.kecamatan}}
+                  </div>
+                  <!-- End for Kecamatan -->
+
+                  <!-- For Kabupaten -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Kabupaten
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.kabupaten}}
+                  </div>
+                  <!-- End Kabupaten -->
+
+                  <!-- For Provinsi -->
+                  <div class="column is-3 key" style="text-align: left">
+                    Provinsi
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.provinsi}}
+                  </div>
+                  <!-- End Provinsi -->
+
+                  <!-- For RT -->
+                  <div class="column is-3 key" style="text-align: left">
+                    RT
+                  </div>
+                  <div class="column is-9" style="text-align: left">
+                    {{data.rt}}
+                  </div>
+                  <!-- End RT -->
+                </div>
               </b-tab-item>
               <!-- End Tab Biodata -->
 
               <!-- Tab Akun -->
               <b-tab-item label="Akun" icon="user">
+                <!-- For E-mail -->
+                <div class="column is-3 key" style="text-align: left">
+                  E-mail
+                </div>
+                <div class="column is-9" style="text-align: left">
+                  {{data.email}}
+                </div>
+                <!-- End for E-mail -->
 
+                <!-- For No Telpon -->
+                <div class="column is-3 key" style="text-align: left">
+                  No. Telpon
+                </div>
+                <div class="column is-9" style="text-align: left">
+                  {{data.phoneNumber}}
+                </div>
+                <!-- End for No. Telpon -->
+
+                <!-- For Telpon Rumah -->
+                <div class="column is-3 key" style="text-align: left">
+                  Telpon Rumah
+                </div>
+                <div class="column is-9" style="text-align: left">
+                  {{data.telpon_rumah}}
+                </div>
+                <!-- End for Telpon Rumah -->
+
+                <!-- For E-mail Sekolah -->
+                <div class="column is-3 key" style="text-align: left">
+                  E-mail Sekolah
+                </div>
+                <div class="column is-9" style="text-align: left">
+                  {{data.school_email}}
+                </div>
+                <!-- End for E-mail Sekolah -->
               </b-tab-item>
               <!-- End Tab Akun -->
             </b-tabs>
@@ -367,6 +262,7 @@ export default {
         gender: null,
         profilePictureUrl: null,
       },
+      activeTab: 0,
       classList: [],
       isFetchingClass: false,
     };
