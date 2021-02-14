@@ -80,6 +80,38 @@
           </div>
           <!-- End for class -->
 
+          <!-- For school year -->
+          <div class="column is-3 key">
+            School Year <span class="required">*</span>
+          </div>
+          <div class="column is-9">
+            <ValidationProvider
+              name="schoolYear"
+              rules="required"
+              v-slot="{ errors }"
+            >
+              <b-select
+                placeholder="School Year"
+                v-model="data.schoolYear"
+                style="width: 90%"
+                expanded
+              >
+                <option
+                  v-for="(schoolYear, index) in schoolYearList"
+                  :key="index"
+                  :value="schoolYear.id"
+                >
+                  {{ schoolYear.startYear }}/{{ schoolYear.endYear }} semester {{ schoolYear.semester }}
+                </option>
+              </b-select>
+
+              <div class="notif notif-required has-text-danger">
+                {{ errors[0] }}
+              </div>
+            </ValidationProvider>
+          </div>
+          <!-- End for school year -->
+
           <!-- For day -->
           <div class="column is-3 key">
             Day <span class="required">*</span>
@@ -169,6 +201,7 @@ export default {
         teacher: [],
         class: [],
         course: [],
+        schoolYear: null,
         day: null,
         startTime: null,
         endTime: null,
@@ -182,6 +215,8 @@ export default {
     };
   },
   async created() {
+    this.getSchoolYear();
+
     if (this.$route.name == 'Schedule.Edit') {
       const response = await this.fetchSchedule(this.$route.params.scheduleId)
 
@@ -194,6 +229,7 @@ export default {
       response.data.class = [response.data.class]
       response.data.teacher = [response.data.user]
       response.data.course = [response.data.course]
+      response.data.schoolYear = response.data.schoolYear.id;
 
       this.data = response.data
     }
@@ -206,6 +242,7 @@ export default {
       searchClassByName: 'classes/searchClassByName',
       searchTeacherByName: 'teacher/searchTeacherByName',
       searchCourseByName: 'course/searchCourseByName',
+      getAllSchoolYear: "schoolYear/getSchoolYear",
     }),
 
     async onSaveClicked() {
@@ -214,6 +251,7 @@ export default {
         class: this.data.class,
         teacher: this.data.teacher,
         course: this.data.course,
+        school_year: this.data.schoolYear,
         email: this.data.email,
         day: this.data.day,
         start_time: new Date(this.data.startTime).getHours() + ":" + new Date(this.data.startTime).getMinutes() + ":" + new Date(this.data.startTime).getSeconds(),
@@ -269,6 +307,14 @@ export default {
       const response = await this.searchCourseByName(data)
 
       this.courseList = response.data
+    },
+
+    async getSchoolYear() {
+      this.schoolYearList = [];
+
+      const response = await this.getAllSchoolYear();
+
+      this.schoolYearList = response.data;
     },
   },
 };

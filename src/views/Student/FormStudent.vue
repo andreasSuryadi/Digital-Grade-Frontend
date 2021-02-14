@@ -82,30 +82,6 @@
           </div>
           <!-- End for last name -->
 
-          <!-- For class -->
-          <div class="column is-3 key">
-            Class <span class="required">*</span>
-          </div>
-          <div class="column is-9">
-            <ValidationProvider name="class" rules="required" v-slot="{ errors }">
-              <b-taginput
-                :data="classList"
-                :loading="isFetchingClass"
-                maxtags="1"
-                autocomplete
-                field="name"
-                placeholder="Type and select class..."
-                v-model="data.class"
-                style="width: 90%"
-                expanded
-                @typing="filterClassByName"
-              ></b-taginput>
-
-              <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
-            </ValidationProvider>
-          </div>
-          <!-- End for class -->
-
           <!-- For phone number -->
           <div class="column is-3 key">
             Phone Number <span class="required">*</span>
@@ -319,7 +295,6 @@ export default {
         nisn: null,
         firstName: null,
         lastName: null,
-        class: [],
         email: null,
         password: null,
         confirmPassword: null,
@@ -340,8 +315,6 @@ export default {
       const response = await this.fetchStudent(this.$route.params.studentId)
 
       response.data.dateOfBirth = new Date(response.data.dateOfBirth)
-
-      response.data.class = [response.data.class]
 
       this.data = response.data
     }
@@ -388,18 +361,6 @@ export default {
         showToast(err.response.data.message, 'is-danger', 'is-bottom')
       }
     },
-
-    async filterClassByName (event) {
-      let data = {
-        search: event
-      }
-
-      this.classList = []
-
-      const response = await this.searchClassByName(data)
-
-      this.classList = response.data
-    }
   },
 };
 </script>

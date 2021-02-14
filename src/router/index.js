@@ -25,6 +25,9 @@ import FormCourse from '@/views/Course/FormCourse'
 import Class from '@/views/Class/IndexClass'
 import FormClass from '@/views/Class/FormClass'
 
+// For School Year
+import SchoolYear from '@/views/SchoolYear/IndexSchoolYear'
+
 // For Schedule
 import Schedule from '@/views/Schedule/IndexSchedule'
 import FormSchedule from '@/views/Schedule/FormSchedule'
@@ -146,6 +149,14 @@ const routes = [
         meta: { requiresAuth: true },
       },
       /** End For Class */
+
+      /** For School Year */
+      {
+        path: '/school-year',
+        name: 'SchoolYear.Index',
+        component: SchoolYear,
+      },
+      /** End For School Year */
 
       /** For Schedule */
       {
