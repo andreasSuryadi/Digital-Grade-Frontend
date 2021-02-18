@@ -27,6 +27,29 @@
           </div>
           <!-- End for name -->
 
+          <!-- For select student -->
+          <div class="column is-3 key">
+            For student <span class="required">*</span>
+          </div>
+          <div class="column is-9">
+            <ValidationProvider name="student" rules="required" v-slot="{ errors }">
+              <b-taginput
+                :data="studentList"
+                :loading="isFetchingStudent"
+                autocomplete
+                field="fullName"
+                placeholder="Type and select student..."
+                v-model="data.user"
+                style="width: 90%"
+                expanded
+                @typing="filterStudentByName"
+              ></b-taginput>
+
+              <div class="notif notif-required has-text-danger">{{ errors[0] }}</div>
+            </ValidationProvider>
+          </div>
+          <!-- End for select student -->
+
           <div class="column" style="text-align: right; padding-right: 100px">
             <b-button
               type="is-primary"
@@ -52,7 +75,10 @@ export default {
       data: {
         id: null,
         name: null,
+        user: [],
       },
+      studentList: [],
+      isFetchingStudent: false,
     };
   },
   async created() {
@@ -67,12 +93,14 @@ export default {
       fetchClass: 'classes/fetchClass',
       createClass: 'classes/createClass',
       updateClass: 'classes/updateClass',
+      searchStudentByName: 'student/searchStudentByName',
     }),
 
     async onSaveClicked() {
       let data = {
         id: this.data.id,
         name: this.data.name,
+        user: this.data.user,
       }
 
       try {
@@ -88,6 +116,18 @@ export default {
       } catch (err) {
         showToast(err.response.data.message, 'is-danger', 'is-bottom')
       }
+    },
+
+    async filterStudentByName (event) {
+      let data = {
+        search: event
+      }
+
+      this.studentList = []
+
+      const response = await this.searchStudentByName(data)
+
+      this.studentList = response.data
     },
   },
 };

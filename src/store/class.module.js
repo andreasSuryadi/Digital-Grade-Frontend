@@ -43,6 +43,34 @@ const classes = {
       })
     },
 
+    // For fetch classes by student
+    fetchClassesByStudent(context, content) {
+      return new Promise((resolve, reject) => {
+        ApiService.init()
+        context.commit('setLoading', true)
+        ApiService.get(`/api/class/get-class-by-student`, {
+          perPage: content.perPage,
+          page: content.page,
+          sortField: content.sortField,
+          sortOrder: content.sortOrder,
+          search: content.search,
+          status: content.status,
+        }).then(
+          response => {
+            if (response.status === 200) {
+              context.commit('setClass', response.data)
+              context.commit('setLoading', false)
+              resolve(response)
+            }
+          },
+          error => {
+            context.commit('setLoading', false)
+            reject(error)
+          }
+        )
+      })
+    },
+
     // For fetch class by id
     fetchClass(context, id) {
       return new Promise((resolve, reject) => {

@@ -77,7 +77,7 @@
           width="10%"
         >
           <!-- For detail class -->
-          <router-link :to="'/student/preview/class/' + $route.params.nis + '/schedule/' + props.row.id">
+          <router-link :to="'/class/student/' + props.row.id">
             <b-button
               type="is-primary is-small has-text-weight-bold"
               title="Schedule"

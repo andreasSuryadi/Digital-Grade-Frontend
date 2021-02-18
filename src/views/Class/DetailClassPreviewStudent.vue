@@ -77,7 +77,7 @@
               v-slot="props"
               width="10%"
             >
-              {{ props.row.name }}
+              {{ props.row.fullName }}
             </b-table-column>
 
             <!-- For class -->
@@ -148,7 +148,7 @@
           <div class="level">
             <div class="level-left"></div>
             <div class="level-right">
-              <b-button type="is-primary" class="btn-create">
+              <b-button type="is-primary" class="btn-create" @click="previewGrade">
                 Preview Nilai
               </b-button>
             </div>
@@ -189,7 +189,7 @@
               v-slot="props"
               width="10%"
             >
-              {{ props.row.name }}
+              {{ props.row.fullName }}
             </b-table-column>
 
             <!-- For class -->

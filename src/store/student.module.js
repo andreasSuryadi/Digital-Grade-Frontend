@@ -112,6 +112,27 @@ const student = {
         )
       })
     },
+
+    // For search student by name
+    searchStudentByName(context, content) {
+      return new Promise((resolve, reject) => {
+        ApiService.init()
+        ApiService.setHeaderMultipartFormData()
+        ApiService.get(`/api/student/search-student-by-name`, {
+          search: content.search,
+        }).then(
+          response => {
+            if (response.status === 200) {
+              resolve(response)
+              return response
+            }
+          },
+          error => {
+            reject(error)
+          }
+        )
+      })
+    },
   },
   mutations: {
     // For set loading

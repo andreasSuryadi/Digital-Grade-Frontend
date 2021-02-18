@@ -210,6 +210,7 @@ export default {
   computed: {
     ...mapGetters({
       schedules: "schedule/getSchedules",
+      user: "user/getUserInfo",
     }),
   },
   async created() {

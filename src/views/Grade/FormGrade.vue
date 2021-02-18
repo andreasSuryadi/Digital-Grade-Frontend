@@ -12,6 +12,7 @@
       <div class="level table-search">
         <div class="level-left">
           <h2>Course: {{ course }}</h2>
+          <br />
           <h2>Class: {{ classes }}</h2>
         </div>
         <div class="level-right">

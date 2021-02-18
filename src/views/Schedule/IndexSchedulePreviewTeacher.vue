@@ -132,7 +132,7 @@
           v-slot="props"
           width="10%"
         >
-          <router-link :to="'/teacher/preview/schedule/' + $route.params.nip + '/list/' + props.row.id">
+          <router-link :to="'/schedule/teacher/' + props.row.id">
             <b-button
               type="is-primary is-small has-text-weight-bold"
               icon-left="list"
@@ -239,7 +239,6 @@ export default {
         sortOrder: sortOrder,
         search: search,
         status: status,
-        nip: this.$route.params.nip,
       }
 
       this.isLoading = true

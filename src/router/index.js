@@ -24,6 +24,8 @@ import FormCourse from '@/views/Course/FormCourse'
 // For Class
 import Class from '@/views/Class/IndexClass'
 import FormClass from '@/views/Class/FormClass'
+import IndexClassPreviewStudent from '@/views/Class/IndexClassPreviewStudent'
+import DetailClassPreviewStudent from '@/views/Class/DetailClassPreviewStudent'
 
 // For School Year
 import SchoolYear from '@/views/SchoolYear/IndexSchoolYear'
@@ -31,9 +33,13 @@ import SchoolYear from '@/views/SchoolYear/IndexSchoolYear'
 // For Schedule
 import Schedule from '@/views/Schedule/IndexSchedule'
 import FormSchedule from '@/views/Schedule/FormSchedule'
+import IndexSchedulePreviewTeacher from '@/views/Schedule/IndexSchedulePreviewTeacher'
 
 // For profile
 import Profile from '@/views/Profile/Profile'
+
+// For Grade
+import Grade from '@/views/Grade/FormGrade'
 
 Vue.use(VueRouter)
 
@@ -148,6 +154,18 @@ const routes = [
         component: FormClass,
         meta: { requiresAuth: true },
       },
+      {
+        path: '/class/student',
+        name: 'Class.Student',
+        component: IndexClassPreviewStudent,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/class/student/:classId',
+        name: 'Class.Student.Detail',
+        component: DetailClassPreviewStudent,
+        meta: { requiresAuth: true },
+      },
       /** End For Class */
 
       /** For School Year */
@@ -175,6 +193,18 @@ const routes = [
         path: '/schedule/edit/:scheduleId',
         name: 'Schedule.Edit',
         component: FormSchedule,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/schedule/teacher',
+        name: 'Schedule.Teacher',
+        component: IndexSchedulePreviewTeacher,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/schedule/teacher/:scheduleId',
+        name: 'Schedule.Teacher.Preview',
+        component: Grade,
         meta: { requiresAuth: true },
       },
       /** End For Schedule */
