@@ -11,21 +11,21 @@
     <template v-if="!isLoading">
       <div class="level table-search">
         <div class="level-left">
-          <h2>Course: {{ course }}</h2>
-          <br />
-          <h2>Class: {{ classes }}</h2>
+          <h2 style="text-align: left">
+            Course: {{ course }}
+            <br />
+            Class: {{ classes }}
+          </h2>
         </div>
         <div class="level-right">
           <b-button type="is-primary" @click="onSaveClicked">Save</b-button>
         </div>
       </div>
-      
+
       <b-table
         v-if="!isLoading"
         :data="gradeData ? gradeData : []"
-        :total="
-          gradeData && gradeData.length ? gradeData.length : 0
-        "
+        :total="gradeData && gradeData.length ? gradeData.length : 0"
       >
         <!-- For student name -->
         <b-table-column field="name" label="Name" v-slot="props" width="5%">
@@ -33,12 +33,7 @@
         </b-table-column>
 
         <!-- For grade -->
-        <b-table-column
-          field="grade"
-          label="Grade"
-          v-slot="props"
-          width="10%"
-        >
+        <b-table-column field="grade" label="Grade" v-slot="props" width="10%">
           <b-input v-model="props.row.grade"></b-input>
         </b-table-column>
       </b-table>
@@ -51,7 +46,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { showToast } from '@/services/util'
+import { showToast } from "@/services/util";
 
 export default {
   name: "form-grade",
@@ -64,29 +59,31 @@ export default {
     };
   },
   async created() {
-    this.isLoading = true
+    this.isLoading = true;
     const responseSchedule = await this.fetchSchedule(
       this.$route.params.scheduleId
     );
 
-    this.course = responseSchedule.data.course.name
-    this.classes = responseSchedule.data.class.name
+    this.course = responseSchedule.data.course.name;
+    this.classes = responseSchedule.data.class.name;
 
-    const responseGrade = await this.fetchGradesBySchedule(this.$route.params.scheduleId);
+    const responseGrade = await this.fetchGradesBySchedule(
+      this.$route.params.scheduleId
+    );
 
-    let gradeData = []
-    responseGrade.data.map(grade => {
+    let gradeData = [];
+    responseGrade.data.map((grade) => {
       gradeData.push({
         studentNis: grade.nis,
         classId: grade.classId,
         name: grade.name,
-        grade: grade.grade
-      })
-    })
+        grade: grade.grade,
+      });
+    });
 
-    this.gradeData = gradeData
+    this.gradeData = gradeData;
 
-    this.isLoading = false
+    this.isLoading = false;
   },
   computed: {
     ...mapGetters({
@@ -102,17 +99,17 @@ export default {
     async onSaveClicked() {
       let data = {
         id: this.$route.params.scheduleId,
-        grades: this.gradeData
-      }
+        grades: this.gradeData,
+      };
 
       try {
-        await this.saveGradesBySchedule(data)
+        await this.saveGradesBySchedule(data);
 
-        showToast('Save Grade Success', 'is-success', 'is-bottom')
+        showToast("Save Grade Success", "is-success", "is-bottom");
 
-        this.$router.push({ name: "Teacher.Preview.Schedule" })
+        this.$router.push({ name: "Schedule.Teacher" });
       } catch (err) {
-        showToast(err, 'is-danger', 'is-bottom')
+        showToast(err, "is-danger", "is-bottom");
       }
     },
   },
