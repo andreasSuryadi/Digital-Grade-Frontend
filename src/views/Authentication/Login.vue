@@ -24,7 +24,7 @@
                   <b-input
                     type="text"
                     v-model="form.nis"
-                    placeholder="NIS"
+                    placeholder="Email"
                     class="login-card__form_input"
                   ></b-input>
                 </b-field>
