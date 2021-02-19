@@ -16,8 +16,8 @@
         <div class="column is-6">
           <ValidationObserver v-slot="{ handleSubmit }">
             <form @submit.prevent="handleSubmit(doLogin)" class="login-card__form">
-              <h1 class="login-card__form_title">Siswa Login</h1>
-              <p class="login-card__form_subtitle">Masukan NIS dan Password Anda.</p>
+              <h1 class="login-card__form_title">Login</h1>
+              <p class="login-card__form_subtitle">Masukan Email dan Password Anda.</p>
 
               <ValidationProvider name="nis" rules="required" v-slot="{ errors }">
                 <b-field :type="errors.length > 0 ? 'is-danger' : null">
