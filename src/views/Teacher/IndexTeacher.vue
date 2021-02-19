@@ -57,7 +57,7 @@
         @sort="onSort"
         detail-key="id"
       >
-        <!-- For NIG -->
+        <!-- For No -->
         <b-table-column
           field="no"
           label="No"
@@ -70,17 +70,15 @@
           </span>
         </b-table-column>
 
-        <!-- For NIG -->
+        <!-- For NIP -->
         <b-table-column
-          field="nig"
-          label="NIG"
+          field="nip"
+          label="NIP"
           sortable
           v-slot="props"
           width="10%"
         >
-          <span class="table-full-name">
-            {{ props.row.nig }}
-          </span>
+          {{ props.row.nip }}
         </b-table-column>
 
         <!-- For full name -->
@@ -154,7 +152,7 @@
 import { mapGetters, mapActions } from "vuex";
 import { showToast } from "@/services/util";
 import Loading from "@/components/Loading";
-import debounce from 'lodash/debounce'
+import debounce from "lodash/debounce";
 
 export default {
   name: "teacher",
@@ -204,25 +202,25 @@ export default {
     }),
 
     // For search teacher
-    searchTeacher: debounce(function(value) {
+    searchTeacher: debounce(function (value) {
       if (value) {
-        this.search = value
+        this.search = value;
         this.loadTeachers(
           this.perPage,
           this.page,
           this.sortField,
           this.sortOrder,
           this.search
-        )
+        );
       } else {
-        this.search = null
+        this.search = null;
         this.loadTeachers(
           this.perPage,
           this.page,
           this.sortField,
           this.sortOrder,
           this.search
-        )
+        );
       }
     }, 500),
 
@@ -324,8 +322,8 @@ export default {
     },
   },
   watch: {
-    search: function(val) {
-      this.searchTeacher(val)
+    search: function (val) {
+      this.searchTeacher(val);
     },
   },
 };

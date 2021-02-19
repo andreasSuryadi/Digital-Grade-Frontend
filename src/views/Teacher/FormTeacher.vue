@@ -9,13 +9,13 @@
       <form @submit.prevent="handleSubmit(onSaveClicked)">
         <div class="columns is-multiline">
           <!-- For nig -->
-          <div class="column is-3 key">NIG <span class="required">*</span></div>
+          <div class="column is-3 key">NIP <span class="required">*</span></div>
           <div class="column is-9">
             <ValidationProvider rules="required" v-slot="{ errors }">
               <b-input
                 type="text"
-                placeholder="NIG"
-                v-model="data.nig"
+                placeholder="NIP"
+                v-model="data.nip"
                 style="width: 90%"
                 expanded
               ></b-input>
@@ -273,7 +273,7 @@ export default {
     return {
       data: {
         id: null,
-        nig: null,
+        nip: null,
         firstName: null,
         lastName: null,
         email: null,
@@ -308,7 +308,7 @@ export default {
     async onSaveClicked() {
       let data = {
         id: this.data.id,
-        nig: this.data.nig,
+        nip: this.data.nip,
         first_name: this.data.firstName,
         last_name: this.data.lastName,
         email: this.data.email,
