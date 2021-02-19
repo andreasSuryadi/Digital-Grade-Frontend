@@ -269,7 +269,6 @@
       scroll="keep"
     >
       <PreviewGrade 
-        :nis="$route.params.nis" 
         :class-id="$route.params.classId"
         :semester="semester"
       />
