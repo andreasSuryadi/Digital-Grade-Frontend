@@ -180,6 +180,21 @@
                 <!-- End For Class -->
               </template>
 
+              <!-- For Map -->
+              <b-menu-item
+                class="sidebar-item"
+                tag="router-link"
+                :to="'/map'"
+                target="_self"
+                :active="this.$route.path.includes('/map')"
+              >
+                <template slot="label">
+                  <b-icon icon="calendar-alt"></b-icon>
+                  <span class="sidebar-item__text"> Map </span>
+                </template>
+              </b-menu-item>
+              <!-- End For Map -->
+
               <b-menu-item
                 class="sidebar-item sidebar-logout"
                 @click="logoutPopup"

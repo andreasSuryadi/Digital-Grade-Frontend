@@ -30,6 +30,9 @@ import DetailClassPreviewStudent from '@/views/Class/DetailClassPreviewStudent'
 // For School Year
 import SchoolYear from '@/views/SchoolYear/IndexSchoolYear'
 
+// For Map API
+import IndexMap from '@/views/MapAPI/IndexMap'
+
 // For Schedule
 import Schedule from '@/views/Schedule/IndexSchedule'
 import FormSchedule from '@/views/Schedule/FormSchedule'
@@ -173,6 +176,14 @@ const routes = [
         path: '/school-year',
         name: 'SchoolYear.Index',
         component: SchoolYear,
+      },
+      /** End For School Year */
+
+      /** For Map */
+      {
+        path: '/map',
+        name: 'Map.Index',
+        component: IndexMap,
       },
       /** End For School Year */
 
